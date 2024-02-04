@@ -97,6 +97,64 @@ ipcMain.on("delete-item", async (event, id) => {
   }
 });
 
+// fetch single user data
+ipcMain.on("get-singleuser-item", async (event, id) => {
+  const db = await dbConnection();
+
+  try {
+    const result = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+    event.sender.send("get-singleuser-item-success", result);
+  } catch (error) {
+    console.log(error.message);
+    event.sender.send("get-singleuser-item-error", error.message);
+  }
+});
+
+// update single user data
+
+ipcMain.on("update-item", async (event, data) => {
+  const {
+    firstName,
+    lastName,
+    phone,
+    email,
+    password,
+    address,
+    country,
+    postalZipCode,
+    companyName,
+    publishStatus,
+    bankDetail,
+  } = data.userUpdatedData;
+  const id = data.userId;
+
+  const db = await dbConnection();
+
+  try {
+    const result = await db.query(
+      "UPDATE users SET firstName =?,lastName=?,phone=?,email=?,passwordHash=?,address=?,country=?,postalZipCode=?,companyName=?,publishStatus=?,bankDetails=? WHERE id=?",
+      [
+        firstName,
+        lastName,
+        phone,
+        email,
+        password,
+        address,
+        country,
+        postalZipCode,
+        companyName,
+        publishStatus,
+        bankDetail,
+        id,
+      ]
+    );
+    event.sender.send("update-item-success", result);
+  } catch (error) {
+    console.log(error.message);
+    event.sender.send("update-item-error", error.message);
+  }
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
