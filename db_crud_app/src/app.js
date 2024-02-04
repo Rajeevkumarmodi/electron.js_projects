@@ -15,3 +15,43 @@ const submitBtn = document.getElementById("submitBtn");
 submitBtn.addEventListener("click", () => {
   console.log("clicked");
 });
+
+window.onload = () => {
+  // Using the exposed ipcRenderer.send method
+  window.electronAPI.send("get-items");
+
+  // Using the exposed ipcRenderer.receive method
+  window.electronAPI.receive("get-items-success", (items) => {
+    displayData(items);
+  });
+
+  window.electronAPI.receive("get-items-error", (errorMessage) => {
+    console.error(errorMessage);
+  });
+};
+
+function displayData(allData) {
+  let allElements = "";
+  allData.forEach((elm) => {
+    allElements += `
+    <tr>
+          <td>${elm.firstName}</td>
+          <td>${elm.lastName}</td>
+          <td>${elm.phone}</td>
+          <td>${elm.email}</td>
+          <td>${elm.password}</td>
+          <td>${elm.address}</td>
+          <td>${elm.country}</td>
+          <td>${elm.postalZipCode}</td>
+          <td>${elm.companyName}</td>
+          <td>${elm.publishStatus}</td>
+          <td>${elm.bankDetail}</td>
+          <td class="actionsBtns">
+            <button>Edit</button>
+            <button>delete</button>
+          </td>
+        </tr>
+    `;
+  });
+  userTable.innerHTML = allElements;
+}

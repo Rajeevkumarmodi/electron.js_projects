@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 require("electron-reloader")(module);
+const dbConnection = require("./db");
 const path = require("path");
 const { error } = require("console");
 
@@ -25,6 +26,16 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 };
+
+ipcMain.on("get-items", async (event) => {
+  const db = await dbConnection();
+  try {
+    const result = await db.query("SELECT * FROM users");
+    event.sender.send("get-items-success", result);
+  } catch (error) {
+    event.sender.send("get-items-error", error.message);
+  }
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
