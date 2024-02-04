@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration Form</title>
+
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .tableHading {
+        text-align: center;
+      }
+      .actionsBtns {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <h3>Registration Form</h3>
+      <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstname" required />
+      </div>
+      <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastname" required />
+      </div>
+      <div>
+        <label for="phone">Phone:</label>
+        <input type="number" id="phone" name="phone" required />
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <div>
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="4" required></textarea>
+      </div>
+      <div>
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required />
+      </div>
+      <div>
+        <label for="postalZipCode">Postal/Zip Code:</label>
+        <input type="text" id="postalZipCode" name="postalZipCode" required />
+      </div>
+      <div>
+        <label for="companyName">Company Name:</label>
+        <input type="text" id="companyName" name="companyName" />
+      </div>
+      <div>
+        <label for="publishStatus">Publish Status:</label>
+        <input type="number" id="publishStatus" />
+      </div>
+      <div>
+        <label for="bankDetail">Bank Detail:</label>
+        <textarea id="bankDetail" name="bankDetail" rows="4"></textarea>
+      </div>
+
+      <input id="submitBtn" type="button" value="Submit" />
+    </form>
+
+    <!-- show user details -->
+
+    <h2 class="tableHading">All User Information Table</h2>
+
+    <table border="2" cellpadding="5">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Address</th>
+          <th>Country</th>
+          <th>Postal/Zip Code</th>
+          <th>Company Name</th>
+          <th>Publish Status</th>
+          <th>Bank Detail</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="userTable">
+        <!-- Add your data rows here -->
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>123-456-7890</td>
+          <td>john.doe@example.com</td>
+          <td>********</td>
+          <td>123 Main St</td>
+          <td>Country</td>
+          <td>12345</td>
+          <td>ABC Inc.</td>
+          <td>Published</td>
+          <td>Bank XYZ</td>
+          <td class="actionsBtns">
+            <button>Edit</button>
+            <button>delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <script src="./app.js"></script>
+  </body>
+</html>
