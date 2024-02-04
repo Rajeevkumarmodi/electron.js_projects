@@ -27,6 +27,7 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 };
 
+// send user data
 ipcMain.on("get-items", async (event) => {
   const db = await dbConnection();
   try {
@@ -34,6 +35,65 @@ ipcMain.on("get-items", async (event) => {
     event.sender.send("get-items-success", result);
   } catch (error) {
     event.sender.send("get-items-error", error.message);
+  }
+});
+
+// set user data
+
+ipcMain.on("set-item", async (event, formData) => {
+  const {
+    firstName,
+    lastName,
+    phone,
+    email,
+    password,
+    address,
+    country,
+    postalZipCode,
+    companyName,
+    publishStatus,
+    bankDetail,
+  } = formData;
+  const db = await dbConnection();
+
+  console.log(formData);
+  try {
+    const result = await db.query(
+      "INSERT INTO users (firstName,lastName,phone,email,passwordHash,address,country,postalZipCode,companyName,publishStatus,bankDetails) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+      [
+        firstName,
+        lastName,
+        phone,
+        email,
+        password,
+        address,
+        country,
+        postalZipCode,
+        companyName,
+        publishStatus,
+        bankDetail,
+      ]
+    );
+    console.log("result", result);
+    event.sender.send("set-tiem-success", result);
+  } catch (error) {
+    console.log("error", error.message);
+    event.sender.send("set-item-error", error.message);
+  }
+});
+
+// delete user
+
+ipcMain.on("delete-item", async (event, id) => {
+  console.log("this is call");
+  const db = await dbConnection();
+
+  try {
+    const result = await db.query("DELETE FROM users WHERE id = ?", [id]);
+    event.sender.send("delete-item-success", result);
+  } catch (error) {
+    console.log(error.message);
+    event.sender.send("delete-item-error", error.message);
   }
 });
 
